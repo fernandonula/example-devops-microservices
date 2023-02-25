@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: thshifts
+  namespace: thinkon
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  labels:
+    app: thshifts
+    tier: api
+spec:
+  rules:
+    - host: shifts.thinkon
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: thshifts-srv
+                port:
+                  number: 8800

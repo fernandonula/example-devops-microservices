@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: thshifts
+    tier: api
+  name: thshifts-depl
+  namespace: thinkon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: thshifts
+      tier: api
+  template:
+    metadata:
+      labels:
+        app: thshifts
+        tier: api
+    spec:
+      containers:
+        - name: thshifts-nodejs
+          image: thshifts-nodejs
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "200m"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: staging
+      imagePullSecrets:
+        - name: registry

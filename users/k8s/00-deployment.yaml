@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: thusers
+    tier: api
+  name: thusers
+  namespace: thinkon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: thusers
+      tier: api
+  template:
+    metadata:
+      labels:
+        app: thusers
+        tier: api
+    spec:
+      containers:
+        - name: thusers-php
+          image: thusers-php-apache
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+              ephemeral-storage: "10Mi"
+            limits:
+              memory: "512Mi"
+              cpu: "1000m"
+              ephemeral-storage: "256Mi"
+          volumeMounts:
+            - name: run-apache
+              mountPath: "/var/run/apache2"
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          securityContext:
+            privileged: false
+            runAsUser: 10001
+            runAsGroup: 10001
+            readOnlyRootFilesystem: true
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /check.php
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+      volumes:
+        - name: run-apache
+          emptyDir:
+            medium: Memory

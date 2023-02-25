@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: thusers
+    tier: api
+  name: thusers
+  namespace: thinkon
+spec:
+  type: NodePort
+  ports:
+    - name: thusers-http
+      port: 8080
+      protocol: TCP
+  selector:
+    app: thusers
+    tier: api

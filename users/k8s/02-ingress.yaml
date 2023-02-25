@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: thusers
+  namespace: thinkon
+  labels:
+    app: thusers
+    tier: api
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: users.thinkon
+      http:
+        paths:
+          - backend:
+              service:
+                name: thusers
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix
