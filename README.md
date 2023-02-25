@@ -27,7 +27,7 @@ Make sure the metric server is running. It is essential to ensure autoscale func
 kubectl get deployment metrics-server -n kube-system
 ```
 
-If not then you cant to install it or install the prometheus-adapter:
+If not, you can either install it or install the prometheus adapter:
 https://github.com/kubernetes-sigs/prometheus-adapter
 
 To install metrics system
